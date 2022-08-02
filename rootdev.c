@@ -89,7 +89,7 @@ static dev_t devt_from_file(const char *file) {
 
 /* Walks sysfs and recurses into any directory/link that represents
  * a block device to find sub-devices (partitions) for dev.
- * If dev == 0, the name fo the first device in the directory will be returned.
+ * If dev == 0, the name of the first device in the directory will be returned.
  * Returns the device's name in "name" */
 static int match_sysfs_device(char *name, size_t name_len,
                               const char *basedir, dev_t *dev, int depth) {
@@ -129,15 +129,6 @@ static int match_sysfs_device(char *name, size_t name_len,
   working_path = malloc(working_path_size);
   if (!working_path) {
     warn("malloc(dirent)");
-    closedir(dirp);
-    return found;
-  }
-
-  /* Allocate a properly sized entry. */
-  entry = malloc(offsetof(struct dirent, d_name) + working_path_size);
-  if (!entry) {
-    warn("malloc(dirent)");
-    free(working_path);
     closedir(dirp);
     return found;
   }
