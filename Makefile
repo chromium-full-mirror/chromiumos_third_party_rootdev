@@ -24,4 +24,4 @@ $(OUT)/librootdev.so.1.0: rootdev.c
 clean:
 	rm -f $(OUT)/rootdev $(OUT)/librootdev.so*
 
-.PHONY: clean
+.PHONY: all clean
