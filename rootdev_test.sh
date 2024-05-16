@@ -79,6 +79,10 @@ if [ "${USER:-}" != "root" ]; then
   error "Must be run as root to use mknod (${USER:-})"
 fi
 
+if ! "${ROOTDEV}" -h >&/dev/null; then
+  export LD_LIBRARY_PATH="${ROOTDEV%/*}"
+fi
+
 t00_bad_sys_dir () {
   out=$("${ROOTDEV}" --block $WORKDIR 2>/dev/null)
   expect "$? -ne 0" || return 1
