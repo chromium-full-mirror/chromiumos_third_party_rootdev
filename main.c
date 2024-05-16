@@ -19,8 +19,19 @@
 
 #include "rootdev.h"
 
+static int flag_help = 0;
+static int flag_use_slave = 0;
+static int flag_strip_partition = 0;
+static int flag_ignore = 0;
+static int flag_create = 0;
+static int flag_major = 0;
+static int flag_minor = 0;
+static const char *flag_path = "/";
+static char *flag_block_path = "/sys/block";
+static char *flag_dev_path = "/dev";
+
 static void print_help(const char *progname) {
-  fprintf(stderr,
+  fprintf(flag_help < 0 ? stderr : stdout,
     "%s [OPTIONS] [PATH]\n"
     "Outputs the containing device for the specified PATH.\n"
     "With no arguments, '/' is assumed.\n"
@@ -39,17 +50,6 @@ static void print_help(const char *progname) {
     "  --minor [num]\tset the minor number of the rootdev\n",
     progname);
 }
-
-static int flag_help = 0;
-static int flag_use_slave = 0;
-static int flag_strip_partition = 0;
-static int flag_ignore = 0;
-static int flag_create = 0;
-static int flag_major = 0;
-static int flag_minor = 0;
-static const char *flag_path = "/";
-static char *flag_block_path = "/sys/block";
-static char *flag_dev_path = "/dev";
 
 static void parse_args(int argc, char **argv) {
   while (1) {
@@ -74,7 +74,7 @@ static void parse_args(int argc, char **argv) {
       break;
 
     if (c == '?') {
-      flag_help = 1;
+      flag_help = -1;
       break;
     }
 
@@ -96,7 +96,7 @@ static void parse_args(int argc, char **argv) {
   }
 
   if (flag_create && flag_strip_partition) {
-    flag_help = 1;
+    flag_help = -1;
     warnx("-c and -d are incompatible at present.");
     return;
   }
@@ -107,7 +107,7 @@ static void parse_args(int argc, char **argv) {
 
   if (optind < argc) {
     fprintf(stderr, "Too many free arguments: %d\n", argc - optind);
-    flag_help = 1;
+    flag_help = -1;
    }
 }
 
@@ -120,7 +120,7 @@ int main(int argc, char **argv) {
 
   if (flag_help) {
     print_help(argv[0]);
-    return 1;
+    return flag_help == 1 ? 0 : 1;
   }
 
   if (flag_major || flag_minor) {
