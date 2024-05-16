@@ -33,8 +33,8 @@
  */
 #define MAX_SLAVE_DEPTH 8
 
-static const char *kDefaultSearchPath = "/sys/block";
-static const char *kDefaultDevPath = "/dev";
+static const char kDefaultSearchPath[] = "/sys/block";
+static const char kDefaultDevPath[] = "/dev";
 
 /* Encode the root device structuring here for Chromium OS */
 static const char kActiveRoot[] = "/dev/ACTIVE_ROOT";
