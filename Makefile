@@ -18,8 +18,8 @@ $(OUT)/rootdev: main.c $(OUT)/librootdev.so.1.0
 $(OUT)/librootdev.so.1.0: rootdev.c
 	$(CC) $(CFLAGS) $(CPPFLAGS) $(LDFLAGS) -shared -fPIC \
 		-Wl,-soname,librootdev.so.1 $< -o $@
-	ln -s $(@F) $(OUT)/librootdev.so.1
-	ln -s $(@F) $(OUT)/librootdev.so
+	ln -sfT $(@F) $(OUT)/librootdev.so.1
+	ln -sfT $(@F) $(OUT)/librootdev.so
 
 clean:
 	rm -f $(OUT)/rootdev $(OUT)/librootdev.so*
