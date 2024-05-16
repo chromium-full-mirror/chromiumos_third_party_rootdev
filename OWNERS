@@ -1,2 +1,2 @@
-bmgordon@chromium.org
-yunlian@google.com
+include chromiumos/owners:v1:/platform/OWNERS.storage
+briannorris@chromium.org
