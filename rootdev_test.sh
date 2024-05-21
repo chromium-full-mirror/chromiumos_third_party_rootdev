@@ -79,8 +79,10 @@ if [ "${USER:-}" != "root" ]; then
   error "Must be run as root to use mknod (${USER:-})"
 fi
 
-if ! "${ROOTDEV}" -h >&/dev/null; then
-  export LD_LIBRARY_PATH="${ROOTDEV%/*}"
+# Always add the dir where rootdev lives if librootdev.so exists.
+libdir="${ROOTDEV%/*}"
+if [[ -e "${libdir}/librootdev.so" ]]; then
+  export LD_LIBRARY_PATH="${libdir}"
 fi
 
 t00_bad_sys_dir () {
